@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://192.168.23.182:3306/store_ums
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml #配置扫描xml文件路径
+  global-config:
+    db-config:
+      id-type: auto
+
+server:
+  port: 8000

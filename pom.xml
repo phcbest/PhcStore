@@ -16,5 +16,8 @@
         <module>store-coupon</module>
         <module>store-order</module>
         <module>store-ware</module>
+        <module>renren-fast</module>
+        <module>renren-generator</module>
+        <module>store-common</module>
     </modules>
 </project>
