@@ -1,22 +1,22 @@
-spring:
-  datasource:
-    username: root
-    password: 123456
-    url: jdbc:mysql://192.168.23.182:3306/store_sms
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 192.168.23.182:8848 #nacos配置nacos中间件服务的ip与端口
-  application:
-    name: store-coupon #在nacos中要注册服务的话需要给每个服务一个名字
-
-
-mybatis-plus:
-  mapper-locations: classpath:/mapper/**/*.xml #配置扫描xml文件路径
-  global-config:
-    db-config:
-      id-type: auto
-
-server:
-  port: 7000
+#spring:
+#  datasource:
+#    username: root
+#    password: 123456
+#    url: jdbc:mysql://192.168.23.182:3306/store_sms
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 192.168.23.182:8848 #nacos配置nacos中间件服务的ip与端口
+#  application:
+#    name: store-coupon #在nacos中要注册服务的话需要给每个服务一个名字
+#
+#
+#mybatis-plus:
+#  mapper-locations: classpath:/mapper/**/*.xml #配置扫描xml文件路径
+#  global-config:
+#    db-config:
+#      id-type: auto
+#
+#server:
+#  port: 7000

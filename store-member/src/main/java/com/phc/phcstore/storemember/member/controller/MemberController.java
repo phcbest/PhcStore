@@ -35,6 +35,10 @@ public class MemberController {
     @Autowired
     CouponFeignService couponFeignService;
 
+    /**
+     * 使用 open feign
+     * @return
+     */
     @RequestMapping("/coupons")
     public R test(){
         MemberEntity memberEntity = new MemberEntity();
