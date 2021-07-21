@@ -3,6 +3,7 @@ package com.phc.phcstore.storeproduct;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * 1 整合mybatis-plus
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *      4） 配置扫描 xml 路径 mapper-locations
  *
  */
+@EnableDiscoveryClient
 @MapperScan("com.phc.phcstore.storeproduct.product.dao")
 @SpringBootApplication
 public class StoreProductApplication {

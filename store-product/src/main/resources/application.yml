@@ -4,12 +4,18 @@ spring:
     password: 123456
     url: jdbc:mysql://192.168.23.182:3306/store_pms
     driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.23.182:8848 #注册中心
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml #配置扫描xml文件路径
   global-config:
     db-config:
       id-type: auto
+      logic-delete-value: 1 #配置逻辑删除的全局规则
+      logic-not-delete-value: 0
 
 server:
   port: 10000
