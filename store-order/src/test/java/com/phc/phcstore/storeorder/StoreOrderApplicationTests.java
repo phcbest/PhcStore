@@ -1,5 +1,7 @@
 package com.phc.phcstore.storeorder;
 
+import com.phc.phcstore.storeorder.order.entity.OrderReturnApplyEntity;
+import com.phc.phcstore.storeorder.order.entity.OrderReturnReasonEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.core.AmqpAdmin;
@@ -9,6 +11,8 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Date;
 
 @Slf4j
 @SpringBootTest
@@ -21,6 +25,7 @@ class StoreOrderApplicationTests {
 
     @Autowired
     AmqpAdmin amqpAdmin;
+    private String string;
 
     @Test
     void contextLoads() {
@@ -49,9 +54,22 @@ class StoreOrderApplicationTests {
     @Autowired
     RabbitTemplate rabbitTemplate;
 
-    //测试发送消息
+    /**
+     * 测试发送消息
+     * 第一个参数为交换机名字
+     * 第二个参数为路由键
+     * 第三个参数为消息内容
+     */
     @Test
     void sendMessageTest() {
-//        rabbitTemplate.convertAndSend();
+        string = "hello world";
+        //发送对象  如果发送的消息是一个对象，会使用序列化机制
+        OrderReturnReasonEntity orderReturnReasonEntity = new OrderReturnReasonEntity();
+        orderReturnReasonEntity.setId(1L);
+        orderReturnReasonEntity.setCreateTime(new Date());
+        orderReturnReasonEntity.setName("hahahahah");
+        rabbitTemplate.convertAndSend("hello-java-exchange", "hello.key",
+                orderReturnReasonEntity);
+        log.info("发送消息{} 成功", orderReturnReasonEntity);
     }
 }
