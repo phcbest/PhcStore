@@ -8,7 +8,10 @@ spring:
     host: 192.168.23.182
     port: 5672
     virtual-host: /
-
+    publisher-confirms: true #消息抵达broker
+    publisher-returns: true #消息正确抵达queue确认
+    template:
+      mandatory: true #只要抵达队列 以异步发送 优先回调returns
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml #配置扫描xml文件路径
   global-config:

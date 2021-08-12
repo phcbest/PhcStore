@@ -3,6 +3,7 @@ package com.phc.phcstore.storeorder.order.controller;
 import com.phc.phcstore.storeorder.order.entity.OrderEntity;
 import com.phc.phcstore.storeorder.order.entity.OrderReturnReasonEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @Author: PengHaiChen
@@ -32,13 +34,13 @@ public class TestRabbitMQController {
                 orderReturnReasonEntity.setCreateTime(new Date());
                 orderReturnReasonEntity.setName("偶数");
                 rabbitTemplate.convertAndSend("hello-java-exchange", "hello.key",
-                        orderReturnReasonEntity);
+                        orderReturnReasonEntity, new CorrelationData(UUID.randomUUID().toString()));
                 log.info("发送消息{} 成功", orderReturnReasonEntity);
             } else {
                 OrderEntity orderEntity = new OrderEntity();
                 orderEntity.setBillContent("偶数");
-                rabbitTemplate.convertAndSend("hello-java-exchange", "hello.key",
-                        orderEntity);
+                rabbitTemplate.convertAndSend("hello-java-exchange", "hello22.key",
+                        orderEntity, new CorrelationData(UUID.randomUUID().toString()));
                 log.info("发送消息{} 成功", orderEntity);
             }
         }
