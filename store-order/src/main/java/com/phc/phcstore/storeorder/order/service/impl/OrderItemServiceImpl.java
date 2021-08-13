@@ -10,11 +10,14 @@ import com.phc.phcstore.storeorder.order.entity.OrderEntity;
 import com.phc.phcstore.storeorder.order.entity.OrderItemEntity;
 import com.phc.phcstore.storeorder.order.entity.OrderReturnReasonEntity;
 import com.phc.phcstore.storeorder.order.service.OrderItemService;
+import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Map;
 
 
@@ -39,19 +42,31 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OrderItemEnt
      * 1. Message message 原生消息详细信息
      * 2. T<发送的消息类型> OrderReturnReasonEntity content
      * 3. Channel 当前传输数据的通道
-     * <p>
+     *
      * queue： 很多人都可以来监听，只要收到消息，队列删除消息，只能有一个接受到消息
      * 1） 订单服务启动多个
      * 2） 只有一个消息完全处理完才能接受下一个消息
-     * <p>
+     *
      * 最后的使用
      *
      * @RabbitListener 标记在类上，说明要监听那些队列
      * @@RabbitHandler 标记在方法上，重载区分不同的消息
      */
     @RabbitHandler
-    public void receiveMessage1(OrderReturnReasonEntity content) {
+    public void receiveMessage1(Message message, OrderReturnReasonEntity content, Channel channel) {
         log.info("receiveMessage 1监听到的消息为{} ", content);
+        //模拟网络中断
+        long deliveryTag = message.getMessageProperties().getDeliveryTag();
+        if (deliveryTag % 2 == 0) {
+            //签收货物，非批量模式
+            try {
+                channel.basicAck(deliveryTag, false);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            
+        }
     }
 
     @RabbitHandler

@@ -32,6 +32,11 @@ public class MyRabbitConfig {
      * 定制rabbitTemplate 设置确认回调
      *
      * @PostConstruct MyRabbitConfig对象创建完成后，执行这个方法
+     *
+     * 消费端确认（确保每个消息都被正确消费了，这个时候broker才能删除这个消息）
+     * 默认是自动确认的，只要消息接受到，就会自动确认，服务器就会移除该消息
+     * 接收者收到了消息，回复broker ack，但是接受者宕机了，这个时候就会发生消息丢失，我们需要去手动确认消息到达
+     *
      */
     @PostConstruct
     public void initRabbitTemplate() {
