@@ -11,6 +11,7 @@ import com.phc.phcstore.storeorder.order.entity.OrderItemEntity;
 import com.phc.phcstore.storeorder.order.entity.OrderReturnReasonEntity;
 import com.phc.phcstore.storeorder.order.service.OrderItemService;
 import com.rabbitmq.client.Channel;
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -58,14 +59,20 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OrderItemEnt
         //模拟网络中断
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         if (deliveryTag % 2 == 0) {
-            //签收货物，非批量模式
             try {
+                //签收货物，非批量模式
                 channel.basicAck(deliveryTag, false);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }else {
-            
+            //退货模式 request==true 是消息发回服务器，服务器重新入队
+            try {
+                channel.basicNack(deliveryTag, false, true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
